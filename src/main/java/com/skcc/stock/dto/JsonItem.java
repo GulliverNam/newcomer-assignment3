@@ -1,30 +1,18 @@
 package com.skcc.stock.dto;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-public class XmlItem {
-	@XmlAttribute(name = "cd")
+public class JsonItem {
 	private int cd;
-	@XmlAttribute(name = "nm")
 	private String nm;
-	@XmlAttribute(name = "nv")
 	private int nv;
-	@XmlAttribute(name = "cv")
 	private int cv;
-	@XmlAttribute(name = "cr")
 	private double cr;
-	@XmlAttribute(name = "rf")
 	private int rf;
-	@XmlAttribute(name = "mks")
 	private int mks;
-	@XmlAttribute(name = "aa")
 	private int aa;
-	public XmlItem() {
+	public JsonItem() {
 	}
-	public XmlItem(int cd, String nm, int nv, int cv, double cr, int rf, int mks, int aa) {
+	public JsonItem(int cd, String nm, int nv, int cv, double cr, int rf, int mks, int aa) {
 		super();
 		this.cd = cd;
 		this.nm = nm;
@@ -35,17 +23,17 @@ public class XmlItem {
 		this.mks = mks;
 		this.aa = aa;
 	}
-	public int getCode() {
+	public int getCd() {
 		return cd;
 	}
-	public void setCode(int cd) {
+	public void setCd(int cd) {
 		this.cd = cd;
 	}
-	public String getName() {
+	public String getNm() {
 		return nm;
 	}
-	public void setName(String name) {
-		this.nm = name;
+	public void setNm(String nm) {
+		this.nm = nm;
 	}
 	public int getNv() {
 		return nv;
@@ -85,7 +73,8 @@ public class XmlItem {
 	}
 	@Override
 	public String toString() {
-		return "XmlItem [cd=" + cd + ", name=" + nm + ", nv=" + nv + ", cv=" + cv + ", cr=" + cr + ", rf=" + rf
+		return "JsonItem [cd=" + cd + ", nm=" + nm + ", nv=" + nv + ", cv=" + cv + ", cr=" + cr + ", rf=" + rf
 				+ ", mks=" + mks + ", aa=" + aa + "]";
 	}
+	
 }
