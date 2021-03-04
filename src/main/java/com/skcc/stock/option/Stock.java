@@ -2,8 +2,10 @@ package com.skcc.stock.option;
 
 import java.util.HashMap;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Stock {
-	
+	public final static ObjectMapper mapper = new ObjectMapper();
 	public final static HashMap<String, String> codeMap = new HashMap<>();
 	
 	static {

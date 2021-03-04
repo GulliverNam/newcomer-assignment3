@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.skcc.stock.option.DocumentType;
 import com.skcc.stock.option.Stock;
-import com.skcc.stock.util.JsonUtils;
+import com.skcc.stock.util.ConnectionUtils;
 
 @Component
 public class XmlDaoImpl implements DocumentDao {
@@ -29,7 +29,7 @@ public class XmlDaoImpl implements DocumentDao {
 		List<Element> xmlInput = xml.getRootElement().getChildren();
 		
 		for(Element item : xmlInput) {
-	        JsonNode stockInfo = JsonUtils.getResponse(item.getAttributeValue("code"));
+	        JsonNode stockInfo = ConnectionUtils.getResponse(item.getAttributeValue("code"));
 	        item.removeAttribute("cd");
 	        for(String key : Stock.codeMap.keySet()) {
 	        	item.setAttribute(Stock.codeMap.get(key), stockInfo.get(key).toString().replaceAll("\"", ""));

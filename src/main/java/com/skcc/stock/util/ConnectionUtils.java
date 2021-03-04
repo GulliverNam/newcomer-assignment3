@@ -1,7 +1,10 @@
 package com.skcc.stock.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -16,6 +19,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.skcc.stock.option.Stock;
 import com.skcc.stock.option.Url;
 
 public class ConnectionUtils {
@@ -50,6 +55,19 @@ public class ConnectionUtils {
 		});
 		return conn;
 	}
-
+	
+	public static JsonNode getResponse(String stockNumber) throws IOException {
+		HttpsURLConnection conn = ConnectionUtils.openConnection(stockNumber);
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8")));
+        String inputLine ;
+        StringBuffer response = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        conn.disconnect();
+        
+		return Stock.mapper.readValue(response.toString(), JsonNode.class).get("result").get("d").get(0);
+	}
 	
 }
