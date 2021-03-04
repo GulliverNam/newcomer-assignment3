@@ -1,4 +1,4 @@
-package com.skcc.stock.util;
+package com.skcc.stock.dao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,18 +7,40 @@ import java.nio.charset.Charset;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.fasterxml.jackson.core.JsonParseException;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.skcc.stock.option.DocumentType;
 import com.skcc.stock.option.Stock;
+import com.skcc.stock.util.ConnectionUtils;
 
-
-public class JsonUtils {
+@Component
+public class JsonDaoImpl implements DocumentDao {
 	
 	private final static ObjectMapper mapper = new ObjectMapper();
+	
+	@Override
+	public String fillDocument(String data) throws IOException {
+		JsonNode json = readValue(data);
+		JsonNode items = json.get("items");
+		for(JsonNode item : items) {
+		    JsonNode stockInfo = getResponse(item.get("cd").toString().replaceAll("\"", ""));
+		    ((ObjectNode)item).remove("cd");
+		    for(String key : Stock.codeMap.keySet()) {
+		    	((ObjectNode)item).put(Stock.codeMap.get(key), stockInfo.get(key).toString().replaceAll("\"", ""));
+		    }
+		}
+		return json.toPrettyString();
+	}
+	
+	@Override
+	public DocumentType getDocumentType() {
+		return DocumentType.Json;
+	}
 	
 	private static JsonNode readValue(String str) throws JsonMappingException, JsonProcessingException {
 		return mapper.readValue(str, JsonNode.class);
@@ -36,18 +58,5 @@ public class JsonUtils {
         conn.disconnect();
         
 		return readValue(response.toString()).get("result").get("d").get(0);
-	}
-
-	public static JsonNode getStockInfo(String jsonData) throws JsonParseException, JsonMappingException, IOException {
-		JsonNode json = readValue(jsonData);
-		JsonNode items = json.get("items");
-		for(JsonNode item : items) {
-		    JsonNode stockInfo = getResponse(item.get("item").toString().replaceAll("\"", ""));
-		    ((ObjectNode)item).remove("item");
-		    for(String key : Stock.codeMap.keySet()) {
-		    	((ObjectNode)item).put(Stock.codeMap.get(key), stockInfo.get(key).toString().replaceAll("\"", ""));
-		    }
-		}
-		return json;
 	}
 }
