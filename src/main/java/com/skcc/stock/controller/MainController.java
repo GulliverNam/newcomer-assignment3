@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.skcc.stock.service.StockService;
 
-// Controller단에서 전문처리 부분 적용
-
 @Controller
 public class MainController {
 	

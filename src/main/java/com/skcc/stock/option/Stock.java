@@ -1,12 +1,13 @@
 package com.skcc.stock.option;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Stock {
 	public final static ObjectMapper mapper = new ObjectMapper();
-	public final static HashMap<String, String> codeMap = new HashMap<>();
+	public final static Map<String, String> codeMap = new HashMap<>();
 	
 	static {
 		codeMap.put("cd", "종목코드");

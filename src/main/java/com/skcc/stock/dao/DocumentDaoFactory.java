@@ -11,19 +11,19 @@ import com.skcc.stock.option.DocumentType;
 
 @Component
 public class DocumentDaoFactory {
-	private Map<DocumentType, DocumentDao> docs;
+	private Map<DocumentType, DocumentDao> documents;
 	
 	@Autowired
-	public DocumentDaoFactory(Set<DocumentDao> docSet) {
-		createDoc(docSet);
+	public DocumentDaoFactory(Set<DocumentDao> documentSet) {
+		createDoc(documentSet);
 	}
 	
 	public DocumentDao findDocType(DocumentType documentType) {
-		return docs.get(documentType);
+		return documents.get(documentType);
 	}
 
-	private void createDoc(Set<DocumentDao> docSet) {
-		docs = new HashMap<DocumentType, DocumentDao>();
-		docSet.forEach(doc -> docs.put(doc.getDocumentType(), doc));
+	private void createDoc(Set<DocumentDao> documentSet) {
+		documents = new HashMap<DocumentType, DocumentDao>();
+		documentSet.forEach(doc -> documents.put(doc.getDocumentType(), doc));
 	}
 }
